@@ -1420,37 +1420,13 @@ ROC plot:
 # ROC Curve for model final_model_1
 
 # ROC curve - install package ROCR
-par (mfrow=c(1,1))
-library(ROCR)
-pred1 <- prediction(final_model_1$fitted.values, final_model_1$y)
-perf1 <- performance(pred1,"tpr","fpr")
-auc1 <- performance(pred1,"auc")@y.values[[1]]
-auc1
-## [1] 0.9169232
-plot(perf1, lwd=2, col=2)
-abline(0,1)
-legend(0.6, 0.3, c(paste ("AUC=", round (auc1, 4), sep="")),   lwd=2, col=2)
 
-# Extract the X and Y values from the ROC plot, as well as the probability cutoffs
-roc.x = slot (perf1, "x.values") [[1]]
-roc.y = slot (perf1, "y.values") [[1]]
-cutoffs = slot (perf1, "alpha.values") [[1]]
+![Screenshot 2025-02-21 5 53 27 PM](https://github.com/user-attachments/assets/48fb648b-3474-403b-af38-01d5ef86412b)
 
-auc.table = cbind.data.frame(cutoff=pred1@cutoffs, 
-                             tp=pred1@tp, fp=pred1@fp, tn=pred1@tn, fn=pred1@fn)
-names (auc.table) = c("Cutoff", "TP", "FP", "TN", "FN")
-auc.table$sensitivity = auc.table$TP / (auc.table$TP + auc.table$FN)
-auc.table$specificity = auc.table$TN / (auc.table$TN + auc.table$FP)
-auc.table$FalsePosRate = 1 - auc.table$specificity
-auc.table$sens_spec = auc.table$sensitivity + auc.table$specificity
 
 # Find the row(s) in the AUC table where sensitivity + specificity is maximized
 
-auc.best = auc.table [auc.table$sens_spec == max (auc.table$sens_spec),]
-auc.best
-##        Cutoff  TP FP TN FN sensitivity specificity FalsePosRate sens_spec
-## 298 0.6412728 171 15 81 32   0.8423645     0.84375      0.15625  1.686115
-# Plot the maximum point(s) on the ROC plot
+![Screenshot 2025-02-21 5 52 52 PM](https://github.com/user-attachments/assets/b7da2200-be7d-4c91-aa4e-a01e92da13ee)
 
 points (auc.best$FalsePosRate, auc.best$sensitivity, cex=1.3)
 
